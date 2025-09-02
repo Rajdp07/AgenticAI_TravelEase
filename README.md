@@ -1,3 +1,64 @@
+## Flight Disruption AI Agent Service
+
+A FastAPI-based service that predicts flight disruption risk, notifies users, and suggests alternative itineraries.
+
+### Quickstart
+
+1) Install dependencies
+```
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+2) Run the API
+```
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+3) Try the agent endpoint
+```
+curl -s -X POST http://localhost:8000/agent/run \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "flight_info": {
+      "flight_number": "XY123",
+      "departure_airport": "JFK",
+      "arrival_airport": "LAX",
+      "departure_time": "2025-09-02T12:00:00Z",
+      "carrier": "XY",
+      "weather_alert_level": 1,
+      "historical_delay_index": 0.2,
+      "airport_congestion_level": 0.4,
+      "crew_shortage_risk": 0.1,
+      "atc_delay_risk": 0.2,
+      "maintenance_risk": 0.05
+    }
+  }' | jq .
+```
+
+### Environment Variables
+
+- `RISK_THRESHOLD` (float, default: 0.6)
+- `DEFAULT_NOTIFY_WEBHOOK_URL` (string, default: empty)
+- `SCHEDULER_ENABLED` (bool, default: false)
+- `SCHEDULER_INTERVAL_SECONDS` (int, default: 300)
+
+### Endpoints
+
+- POST `/predict` – Predict disruption risk
+- POST `/alternatives` – Suggest alternatives
+- POST `/notify` – Send notification
+- POST `/agent/run` – Full agent workflow
+- POST `/monitor/subscribe` – Track a flight for periodic checks
+- POST `/monitor/unsubscribe` – Stop tracking a flight
+- GET `/health` – Health check
+
+### Smoke Test
+
+```
+bash scripts/smoke_test.sh
+```
+
 # 🚀 Learn Agentic AI from Scratch
 
 Welcome to the **Agentic AI Course**, where we explore the next frontier of AI: **Autonomous AI Agents**! 🤖💡 In this course, you'll dive deep into the world of **AI agents**, **Agentic AI design patterns**, and build **15 cutting-edge projects** using **Agno** and **Microsoft Autogen**. 
